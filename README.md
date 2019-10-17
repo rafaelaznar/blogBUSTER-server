@@ -1,2 +1,2 @@
 # blogBUSTER
-El Superblog de DAW 2019-2020
+The Superblog of DAW 2019-2020
