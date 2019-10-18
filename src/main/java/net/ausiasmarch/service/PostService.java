@@ -48,5 +48,22 @@ public class PostService {
         oConnectionImplementation.disposeConnection();
         return oGson.toJson(oResponseBean);
     }
+    
+    public String remove() throws SQLException {
+		ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+		Connection oConection = oConnectionImplementation.newConnection();
+		PostDao oPostDao = new PostDao(oConection);
+		Gson oGson = new Gson();
+		int id = Integer.parseInt(oRequest.getParameter("id"));
+		ResponseBean oResponseBean;
+		if (oPostDao.remove(id) == 0) {
+			oResponseBean = new ResponseBean(500, "KO");
+		} else {
+			oResponseBean = new ResponseBean(200, "OK");
+		}
+		;
+		oConnectionImplementation.disposeConnection();
+		return oGson.toJson(oResponseBean);
+	}
 
 }

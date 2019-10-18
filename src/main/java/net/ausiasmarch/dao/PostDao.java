@@ -59,5 +59,27 @@ public class PostDao {
         return iResult;
 
     }
+    
+    public Integer remove(int id) throws SQLException {
+
+        PreparedStatement oPreparedStament = null;
+        String strSQL = "";
+        int iResult;
+        
+        strSQL = "DELETE ";
+        strSQL += " FROM post ";
+        strSQL += " WHERE id=?";
+
+        oPreparedStament = oConnection.prepareStatement(strSQL, Statement.RETURN_GENERATED_KEYS);        
+        
+        oPreparedStament.setInt(1, id);
+
+        iResult = oPreparedStament.executeUpdate();
+        
+        System.out.println(iResult);
+
+        return iResult;
+
+    }
 
 }
