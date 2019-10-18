@@ -1,8 +1,10 @@
 package net.ausiasmarch.service;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import net.ausiasmarch.bean.PostBean;
@@ -47,6 +49,27 @@ public class PostService {
         };
         oConnectionImplementation.disposeConnection();
         return oGson.toJson(oResponseBean);
+    }
+    
+    public String getAll() throws SQLException {
+        ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+        Connection oConection = oConnectionImplementation.newConnection();
+        PostDao oPostDao = new PostDao(oConection);
+        Gson oGson = new Gson();
+        String message = "";
+        
+        //GsonHelper gh = new GsonHelper();
+        
+        oGson = new GsonBuilder().setDateFormat("dd/MMM/yyyy HH:mm").create();
+        List<PostBean> listaPostBean = oPostDao.getall();
+            if(listaPostBean==null){
+                message = "\"La lista está vacia\"";
+            } else {
+                //oGson = gh.getGson();
+                message = oGson.toJson(listaPostBean);
+            }
+        oConnectionImplementation.disposeConnection();
+        return "{\"status\":200,\"response\":" + message + "}";
     }
 
 }
