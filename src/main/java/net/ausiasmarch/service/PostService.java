@@ -36,17 +36,23 @@ public class PostService {
 
     public String update() throws SQLException {
         ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConection = oConnectionImplementation.newConnection();
-        PostBean oPostBean = new PostBean();
+        Connection oConnection = oConnectionImplementation.newConnection();
         Gson oGson = new Gson();
-        oPostBean = oGson.fromJson(oRequest.getParameter("data"), PostBean.class);
-        PostDao oPostDao = new PostDao(oConection);
+        oGson = new GsonBuilder().setDateFormat("dd/MMM/yyyy HH:mm").create();
         ResponseBean oResponseBean;
+        PostBean oPostBean = new PostBean();
+        
+        String data = oRequest.getParameter("data");
+        oPostBean = oGson.fromJson(data, PostBean.class);
+        
+        PostDao oPostDao = new PostDao(oConnection);
+
         if (oPostDao.update(oPostBean) == 0) {
             oResponseBean = new ResponseBean(500, "KO");
         } else {
             oResponseBean = new ResponseBean(200, "OK");
-        };
+        }
+
         oConnectionImplementation.disposeConnection();
         return oGson.toJson(oResponseBean);
     }

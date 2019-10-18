@@ -40,27 +40,20 @@ public class PostDao {
     }
 
     public Integer update(PostBean oPostBean) throws SQLException {
-
-        PreparedStatement oPreparedStament = null;
-        String strSQL = "";
+        PreparedStatement oPreparedStatement = null;
+        String strSQL = "UPDATE post SET titulo = ?, cuerpo = ?, etiquetas = ?, fecha = ? WHERE id = ?";
         int iResult;
 
-        strSQL = "UPDATE post ";
-        strSQL += " SET ";
-        strSQL += " titulo = " + oPostBean.getTitulo();
-        strSQL += " cuerpo = " + oPostBean.getCuerpo();
-        strSQL += " etiquetas = " + oPostBean.getEtiquetas();
-        strSQL += " fecha = " + oPostBean.getFecha();
-        strSQL += " WHERE id=?";
+        oPreparedStatement = oConnection.prepareStatement(strSQL, Statement.RETURN_GENERATED_KEYS);
+        oPreparedStatement.setString(1, oPostBean.getTitulo());
+        oPreparedStatement.setString(2, oPostBean.getCuerpo());
+        oPreparedStatement.setString(3, oPostBean.getEtiquetas());
+        oPreparedStatement.setDate(4, oPostBean.getFecha());
+        oPreparedStatement.setInt(5, oPostBean.getId());
 
-        PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL, Statement.RETURN_GENERATED_KEYS);
-
-        oPreparedStament.setInt(1, oPostBean.getId());
-
-        iResult = oPreparedStament.executeUpdate();
+        iResult = oPreparedStatement.executeUpdate();
 
         return iResult;
-
     }
     
     public List<PostBean> getall() throws SQLException{
@@ -79,7 +72,7 @@ public class PostDao {
             listaPostBean.add(oPostBean);        
         }
         
-    return listaPostBean;
+        return listaPostBean;
     }
 
 }
