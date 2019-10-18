@@ -24,7 +24,7 @@ public class PostDao {
         String strSQL = "SELECT * FROM post WHERE id=?";
         oPreparedStatement = oConnection.prepareStatement(strSQL);
         oPreparedStatement.setInt(1, id);
-        oResultSet = oPreparedStatement.executeQuery(strSQL);
+        oResultSet = oPreparedStatement.executeQuery();
         PostBean oPostBean;
         if (oResultSet.next()) {
             oPostBean = new PostBean();
