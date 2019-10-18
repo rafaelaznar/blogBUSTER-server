@@ -42,7 +42,12 @@ public class Json extends HttpServlet {
                     if (op.equalsIgnoreCase("getPage")) {
                         out.print(oPostService.getPage());
                     }
-
+                    if (op.equalsIgnoreCase("update")) {
+                        out.print(oPostService.update());
+                    }
+                    if (op.equalsIgnoreCase("getall")) {
+                        out.print(oPostService.getAll());
+                    }
                 }
             } catch (SQLException ex) {
                 ResponseBean oResponseBean = new ResponseBean(500, "KO");
