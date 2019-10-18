@@ -18,7 +18,6 @@ import net.ausiasmarch.setting.ConnectionSettings;
 public class PostService {
 
     HttpServletRequest oRequest = null;
-    Gson gson = new GsonBuilder().setDateFormat("dd/mm/yyyy HH:mm").create();
 
     public PostService(HttpServletRequest oRequest) {
         this.oRequest = oRequest;
@@ -32,6 +31,7 @@ public class PostService {
         int numeroRegistros = Integer.parseInt(oRequest.getParameter("limit"));
           PostDao oPostDao = new PostDao(oConection);
         ArrayList<PostBean> oPostBeanList = oPostDao.getPage(pagina,numeroRegistros);
+        Gson gson = new GsonBuilder().setDateFormat("dd/mm/yyyy HH:mm").create();
         Gson oGson = gson;
         String strJson = oGson.toJson(oPostBeanList);
         oConnectionImplementation.disposeConnection();
