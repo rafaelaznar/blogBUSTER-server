@@ -38,24 +38,11 @@ public class Json extends HttpServlet {
             try {
                 if (ob.equalsIgnoreCase("post")) {
                     PostService oPostService = new PostService(request);
-                    if (op.equalsIgnoreCase("get")) {
-                        out.print(oPostService.get());
-                    }
-                    if (op.equalsIgnoreCase("update")) {
-                        out.print(oPostService.update());
-                    }
-                    if (op.equalsIgnoreCase("getAll")) {
-                        out.print(oPostService.getAll());
-                    }
+
                     if (op.equalsIgnoreCase("getPage")) {
                         out.print(oPostService.getPage());
                     }
-                    if (op.equalsIgnoreCase("newOne")) {
-                        out.print(oPostService.newOne());
-                    }
-                    if (op.equalsIgnoreCase("remove")) {
-                        out.print(oPostService.remove());
-                    }
+
                 }
             } catch (SQLException ex) {
                 ResponseBean oResponseBean = new ResponseBean(500, "KO");

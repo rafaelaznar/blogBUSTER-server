@@ -22,40 +22,42 @@ public class PostBean {
         return id;
     }
 
-    public void setId(Integer Id) {
-        this.id = Id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTitulo() {
         return titulo;
     }
 
-    public void setTitulo(String Titulo) {
-        this.titulo = Titulo;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getCuerpo() {
         return cuerpo;
     }
 
-    public void setCuerpo(String Cuerpo) {
-        this.cuerpo = Cuerpo;
+    public void setCuerpo(String cuerpo) {
+        this.cuerpo = cuerpo;
     }
 
     public String getEtiquetas() {
         return etiquetas;
     }
 
-    public void setEtiquetas(String Etiquetas) {
-        this.etiquetas = Etiquetas;
+    public void setEtiquetas(String etiquetas) {
+        this.etiquetas = etiquetas;
     }
 
     public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date Fecha) {
-        this.fecha = Fecha;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
+
+  
     
 }
