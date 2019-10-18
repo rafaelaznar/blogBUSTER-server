@@ -38,7 +38,7 @@ public class PostService {
         ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
         Connection oConnection = oConnectionImplementation.newConnection();
         Gson oGson = new Gson();
-        oGson = new GsonBuilder().setDateFormat("dd/MMM/yyyy HH:mm").create();
+        
         ResponseBean oResponseBean;
         PostBean oPostBean = new PostBean();
         

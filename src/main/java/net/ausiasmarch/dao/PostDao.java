@@ -42,15 +42,14 @@ public class PostDao {
 
     public Integer update(PostBean oPostBean) throws SQLException {
         PreparedStatement oPreparedStatement = null;
-        String strSQL = "UPDATE post SET titulo = ?, cuerpo = ?, etiquetas = ?, fecha = ? WHERE id = ?";
+        String strSQL = "UPDATE post SET titulo = ?, cuerpo = ?, etiquetas = ? WHERE id = ?";
         int iResult;
 
         oPreparedStatement = oConnection.prepareStatement(strSQL, Statement.RETURN_GENERATED_KEYS);
         oPreparedStatement.setString(1, oPostBean.getTitulo());
         oPreparedStatement.setString(2, oPostBean.getCuerpo());
         oPreparedStatement.setString(3, oPostBean.getEtiquetas());
-        //oPreparedStatement.setDate(4, oPostBean.getFecha());
-        oPreparedStatement.setInt(5, oPostBean.getId());
+        oPreparedStatement.setInt(4, oPostBean.getId());
 
         iResult = oPreparedStatement.executeUpdate();
 
