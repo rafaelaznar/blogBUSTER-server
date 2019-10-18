@@ -1,6 +1,7 @@
 package net.ausiasmarch.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,7 +49,7 @@ public class PostDao {
         oPreparedStatement.setString(1, oPostBean.getTitulo());
         oPreparedStatement.setString(2, oPostBean.getCuerpo());
         oPreparedStatement.setString(3, oPostBean.getEtiquetas());
-        oPreparedStatement.setDate(4, oPostBean.getFecha());
+        //oPreparedStatement.setDate(4, oPostBean.getFecha());
         oPreparedStatement.setInt(5, oPostBean.getId());
 
         iResult = oPreparedStatement.executeUpdate();
@@ -73,6 +74,20 @@ public class PostDao {
         }
         
         return listaPostBean;
+    }
+    
+       public Integer insert(PostBean oPostBean) throws SQLException {
+        PreparedStatement oPreparedStatement;
+        String strsql = "INSERT INTO post (titulo,cuerpo,etiquetas) VALUES(?,?,?)";
+
+        oPreparedStatement = oConnection.prepareStatement(strsql);
+
+        oPreparedStatement.setString(1, oPostBean.getTitulo());
+        oPreparedStatement.setString(2, oPostBean.getCuerpo());
+        oPreparedStatement.setString(3, oPostBean.getEtiquetas());
+        //oPreparedStatement.setDate(4, (Date) oPostBean.getFecha());
+        int iResult = oPreparedStatement.executeUpdate();
+        return iResult;
     }
 
 }

@@ -78,4 +78,28 @@ public class PostService {
         return "{\"status\":200,\"response\":" + message + "}";
     }
 
+       public String insert() throws SQLException {
+        ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+        Connection oConection = oConnectionImplementation.newConnection();
+
+        //int id = Integer.parseInt(oRequest.getParameter("id"));
+        //PostBean oPostBean = new PostBean();
+        final GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithoutExposeAnnotation();
+        Gson oGson = builder.create();
+
+        oGson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
+        PostBean oPostBean = oGson.fromJson(oRequest.getParameter("data"), PostBean.class);
+
+        ResponseBean oResponseBean;
+        PostDao oPostDao = new PostDao(oConection);
+        if (oPostDao.insert(oPostBean) == 0) {
+            oResponseBean = new ResponseBean(500, "KO");
+        } else {
+            oResponseBean = new ResponseBean(200, "OK");
+        };
+        oConnectionImplementation.disposeConnection();
+        return oGson.toJson(oResponseBean);
+
+    }
 }

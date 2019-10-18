@@ -5,6 +5,8 @@
  */
 package net.ausiasmarch.bean;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Date;
 
 /**
@@ -12,10 +14,15 @@ import java.util.Date;
  * @author raznara
  */
 public class PostBean {
+    @Expose
     private Integer id;
+    @Expose
     private String titulo;
+    @Expose
     private String cuerpo;
+    @Expose
     private String etiquetas;
+    @Expose
     private Date fecha;
 
     public Integer getId() {
@@ -57,6 +64,8 @@ public class PostBean {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
+
+    
 
   
     
