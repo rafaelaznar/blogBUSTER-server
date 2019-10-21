@@ -47,6 +47,18 @@ public class Json extends HttpServlet {
                     if (op.equalsIgnoreCase("remove")) {
 						out.print(oPostService.remove());
 					}
+                    if (op.equalsIgnoreCase("getall")) {
+                        out.print(oPostService.getAll());
+                    }
+                    if (op.equalsIgnoreCase("insert")) {
+                        out.print(oPostService.insert());
+                    }
+                    if (op.equalsIgnoreCase("getall")) {
+                        out.print(oPostService.getAll());
+                    }
+                    if (op.equalsIgnoreCase("insert")) {
+                        out.print(oPostService.insert());
+                    }
                 }
             } catch (SQLException ex) {
                 ResponseBean oResponseBean = new ResponseBean(500, "KO");
