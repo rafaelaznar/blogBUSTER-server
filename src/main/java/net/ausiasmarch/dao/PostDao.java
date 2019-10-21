@@ -21,7 +21,26 @@ public class PostDao {
         this.oConnection = oConnection;
     }
 
-    
+    public PostBean get(int id) throws SQLException {
+        PreparedStatement oPreparedStatement;
+        ResultSet oResultSet;
+        String strSQL = "SELECT * FROM post WHERE id=?";
+        oPreparedStatement = oConnection.prepareStatement(strSQL);
+        oPreparedStatement.setInt(1, id);
+        oResultSet = oPreparedStatement.executeQuery();
+        PostBean oPostBean;
+        if (oResultSet.next()) {
+            oPostBean = new PostBean();
+            oPostBean.setId(oResultSet.getInt("id"));
+            oPostBean.setTitulo(oResultSet.getString("titulo"));
+            oPostBean.setCuerpo(oResultSet.getString("cuerpo"));
+            oPostBean.setEtiquetas(oResultSet.getString("etiquetas"));
+            oPostBean.setFecha(oResultSet.getDate("fecha"));
+        } else {
+            oPostBean = null;
+        }
+        return oPostBean;
+    }
 
     public Integer update(PostBean oPostBean) throws SQLException {
         PreparedStatement oPreparedStatement = null;

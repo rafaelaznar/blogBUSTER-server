@@ -30,9 +30,17 @@ public class PostService {
     public PostService(HttpServletRequest oRequest) {
         this.oRequest = oRequest;
     }
-
-
-
+public String get() throws SQLException {
+        ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+        Connection oConection = oConnectionImplementation.newConnection();
+        int id = Integer.parseInt(oRequest.getParameter("id"));
+        PostDao oPostDao = new PostDao(oConection);
+        PostBean oPostBean = oPostDao.get(id);
+        Gson oGson = new Gson();
+        String strJson = oGson.toJson(oPostBean);
+        oConnectionImplementation.disposeConnection();
+        return "{\"status\":200,\"response\":" + strJson + "}";
+    }
 
     public String update() throws SQLException {
         ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);

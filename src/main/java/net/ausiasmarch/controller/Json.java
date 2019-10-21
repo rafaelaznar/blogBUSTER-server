@@ -34,19 +34,19 @@ public class Json extends HttpServlet {
         }
         try (PrintWriter out = response.getWriter()) {
             String ob = request.getParameter("ob");
-            String op = request.getParameter("op");           
+            String op = request.getParameter("op");
             try {
                 if (ob.equalsIgnoreCase("post")) {
                     PostService oPostService = new PostService(request);
-
-                    
-                    
+                    if (op.equalsIgnoreCase("get")) {
+                        out.print(oPostService.get());
+                    }
                     if (op.equalsIgnoreCase("update")) {
                         out.print(oPostService.update());
                     }
                     if (op.equalsIgnoreCase("remove")) {
-			out.print(oPostService.remove());
-					}
+                        out.print(oPostService.remove());
+                    }
                     if (op.equalsIgnoreCase("getall")) {
                         out.print(oPostService.getAll());
                     }
@@ -55,7 +55,7 @@ public class Json extends HttpServlet {
                     }
                     if (op.equalsIgnoreCase("fill")) {
                         out.print(oPostService.fill());
-					}
+                    }
                     if (op.equalsIgnoreCase("getPage")) {
                         out.print(oPostService.getPage());
                     }
