@@ -39,14 +39,13 @@ public class Json extends HttpServlet {
                 if (ob.equalsIgnoreCase("post")) {
                     PostService oPostService = new PostService(request);
 
-                    if (op.equalsIgnoreCase("getPage")) {
-                        out.print(oPostService.getPage());
-                    }
+                    
+                    
                     if (op.equalsIgnoreCase("update")) {
                         out.print(oPostService.update());
                     }
                     if (op.equalsIgnoreCase("remove")) {
-						out.print(oPostService.remove());
+			out.print(oPostService.remove());
 					}
                     if (op.equalsIgnoreCase("getall")) {
                         out.print(oPostService.getAll());
@@ -55,8 +54,11 @@ public class Json extends HttpServlet {
                         out.print(oPostService.insert());
                     }
                     if (op.equalsIgnoreCase("fill")) {
-						out.print(oPostService.fill());
+                        out.print(oPostService.fill());
 					}
+                    if (op.equalsIgnoreCase("getPage")) {
+                        out.print(oPostService.getPage());
+                    }
                 }
             } catch (SQLException ex) {
                 ResponseBean oResponseBean = new ResponseBean(500, "KO");

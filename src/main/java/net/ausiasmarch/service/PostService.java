@@ -32,19 +32,7 @@ public class PostService {
     }
 
 
-      public String getPage() throws SQLException {
-        ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConection = oConnectionImplementation.newConnection();
-        int pagina = Integer.parseInt(oRequest.getParameter("page"));
-        int numeroRegistros = Integer.parseInt(oRequest.getParameter("limit"));
-          PostDao oPostDao = new PostDao(oConection);
-        ArrayList<PostBean> oPostBeanList = oPostDao.getPage(pagina,numeroRegistros);
-        Gson gson = new GsonBuilder().setDateFormat("dd/mm/yyyy HH:mm").create();
-        Gson oGson = gson;
-        String strJson = oGson.toJson(oPostBeanList);
-        oConnectionImplementation.disposeConnection();
-        return "{\"status\":200,\"response\":" + strJson + "}";
-      }
+
 
     public String update() throws SQLException {
         ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
@@ -171,4 +159,18 @@ public class PostService {
    		}
    		return fraseRandom;
    	}
+        
+              public String getPage() throws SQLException {
+        ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+        Connection oConection = oConnectionImplementation.newConnection();
+        int pagina = Integer.parseInt(oRequest.getParameter("page"));
+        int numeroRegistros = Integer.parseInt(oRequest.getParameter("limit"));
+          PostDao oPostDao = new PostDao(oConection);
+        ArrayList<PostBean> oPostBeanList = oPostDao.getPage(pagina,numeroRegistros);
+        Gson gson = new GsonBuilder().setDateFormat("dd/mm/yyyy HH:mm").create();
+        Gson oGson = gson;
+        String strJson = oGson.toJson(oPostBeanList);
+        oConnectionImplementation.disposeConnection();
+        return "{\"status\":200,\"response\":" + strJson + "}";
+      }
 }
