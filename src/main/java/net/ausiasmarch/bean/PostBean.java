@@ -13,7 +13,7 @@ import java.util.Date;
  *
  * @author raznara
  */
-public class PostBean {
+public class PostBean implements BeanInterface {
     @Expose
     private Integer id;
     @Expose
@@ -25,10 +25,12 @@ public class PostBean {
     @Expose
     private Date fecha;
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
