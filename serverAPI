@@ -1,0 +1,10 @@
+server API 
+==========
+json?ob=post&op=insert (data=POST)
+json?ob=post&op=update (data=POST)
+json?ob=post&op=remove&id=?
+json?ob=post&op=get&id=?
+json?ob=post&op=getall
+json?ob=post&op=getcount
+json?ob=post&op=getpage&page=?&rpp=?
+json?ob=post&op=fill&number=?
