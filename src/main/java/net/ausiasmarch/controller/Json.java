@@ -8,59 +8,43 @@ package net.ausiasmarch.controller;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.ausiasmarch.bean.PostBean;
 import net.ausiasmarch.bean.ResponseBean;
-import net.ausiasmarch.factory.ConnectionFactory;
-import net.ausiasmarch.connection.ConnectionInterface;
-import net.ausiasmarch.dao.PostDao;
-import net.ausiasmarch.service.PostService;
-import net.ausiasmarch.setting.ConnectionSettings;
+import net.ausiasmarch.factory.ServiceCall;
+import net.ausiasmarch.setting.ConfigurationSettings;
+import net.ausiasmarch.setting.ConfigurationSettings.EnvironmentConstans;
 
 public class Json extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
+        response.setHeader("Access-Control-Allow-Methods", "GET,POST");
+        response.setHeader("Access-Control-Max-Age", "86400");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, Accept, x-requested-with, Content-Type");
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         try (PrintWriter out = response.getWriter()) {
-            String ob = request.getParameter("ob");
-            String op = request.getParameter("op");           
             try {
-                if (ob.equalsIgnoreCase("post")) {
-                    PostService oPostService = new PostService(request);
-                    if (op.equalsIgnoreCase("get")) {
-                        out.print(oPostService.get());
-                    }
-                    if (op.equalsIgnoreCase("update")) {
-                        out.print(oPostService.update());
-                    }
-                    if (op.equalsIgnoreCase("remove")) {
-						out.print(oPostService.remove());
-					}
-                    if (op.equalsIgnoreCase("getall")) {
-                        out.print(oPostService.getAll());
-                    }
-                    if (op.equalsIgnoreCase("insert")) {
-                        out.print(oPostService.insert());
-                    }
-                    if (op.equalsIgnoreCase("fill")) {
-						out.print(oPostService.fill());
-					}
+                out.print(ServiceCall.executeService(request));
+            } catch (Exception ex) {
+                if (ConfigurationSettings.environment == EnvironmentConstans.Debug) {
+                    out.print(ex);
+                    ex.printStackTrace();
+                } else {
+                    ResponseBean oResponseBean = new ResponseBean(500, "BlogBuster ERROR: Please contact your administrator");
+                    Gson oGson = new Gson();
+                    out.print(oGson.toJson(oResponseBean));
                 }
-            } catch (SQLException ex) {
-                ResponseBean oResponseBean = new ResponseBean(500, "KO");
-                Gson oGson = new Gson();
-                out.print(oGson.toJson(oResponseBean));
             }
         }
     }
