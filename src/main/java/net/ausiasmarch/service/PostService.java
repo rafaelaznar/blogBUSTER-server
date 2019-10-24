@@ -36,13 +36,18 @@ public class PostService implements ServiceInterface {
     @Override
     public String get() throws SQLException {
         ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConection = oConnectionImplementation.newConnection();
+        Connection oConnection = oConnectionImplementation.newConnection();
         int id = Integer.parseInt(oRequest.getParameter("id"));
-        PostDao oPostDao = new PostDao(oConection);
+        PostDao oPostDao = new PostDao(oConnection);
         PostBean oPostBean = oPostDao.get(id);
         Gson oGson = GsonFactory.getGson();
         String strJson = oGson.toJson(oPostBean);
-        oConnectionImplementation.disposeConnection();
+        if (oConnection != null) {
+            oConnection.close();
+        }
+        if (oConnectionImplementation != null) {
+            oConnectionImplementation.disposeConnection();
+        }
         return "{\"status\":200,\"response\":" + strJson + "}";
     }
 
@@ -53,7 +58,7 @@ public class PostService implements ServiceInterface {
         int iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
         int iPage = Integer.parseInt(oRequest.getParameter("page"));
         PostDao oPostDao = new PostDao(oConnection);
-        ArrayList alPostBean = oPostDao.getPage(iRpp, iPage);
+        ArrayList alPostBean = oPostDao.getPage(iPage, iRpp);
         Gson oGson = GsonFactory.getGson();
         String strJson = oGson.toJson(alPostBean);
         if (oConnection != null) {
