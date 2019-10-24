@@ -81,7 +81,7 @@ public class PostDao implements DaoInterface {
             oPostBean.setTitulo(rs.getString("titulo"));
             oPostBean.setCuerpo(rs.getString("cuerpo"));
             oPostBean.setEtiquetas(rs.getString("etiquetas"));
-            oPostBean.setFecha(new Timestamp(rs.getTimestamp("fecha").getTime()));
+            //oPostBean.setFecha(new Timestamp(rs.getTimestamp("fecha").getTime()));
             listaPostBean.add(oPostBean);
         }
         return listaPostBean;
@@ -139,7 +139,7 @@ public class PostDao implements DaoInterface {
             oPostBean.setTitulo(oResultSet.getString("titulo"));
             oPostBean.setCuerpo(oResultSet.getString("cuerpo"));
             oPostBean.setEtiquetas(oResultSet.getString("etiquetas"));
-            oPostBean.setFecha(oResultSet.getDate("fecha"));
+            //oPostBean.setFecha(oResultSet.getDate("fecha"));
 
             oPostBeanList.add(oPostBean);
         }
