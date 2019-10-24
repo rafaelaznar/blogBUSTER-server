@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `post` (
   `id` int(11) NOT NULL,
-  `titulo` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `titulo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `cuerpo` text COLLATE utf8_unicode_ci NOT NULL,
   `etiquetas` tinytext COLLATE utf8_unicode_ci NOT NULL,
   `fecha` datetime DEFAULT NULL
