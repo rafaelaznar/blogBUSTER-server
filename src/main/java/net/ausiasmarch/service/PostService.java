@@ -47,26 +47,36 @@ public class PostService implements ServiceInterface {
     }
 
     @Override
-    public String getpage() throws SQLException {
+    public String getPage() throws SQLException {
         ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConection = oConnectionImplementation.newConnection();
+        Connection oConnection = oConnectionImplementation.newConnection();
         int iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
         int iPage = Integer.parseInt(oRequest.getParameter("page"));
-        PostDao oPostDao = new PostDao(oConection);
-        ArrayList alPostBean = oPostDao.getpage(iRpp, iPage);
+        PostDao oPostDao = new PostDao(oConnection);
+        ArrayList alPostBean = oPostDao.getPage(iRpp, iPage);
         Gson oGson = GsonFactory.getGson();
         String strJson = oGson.toJson(alPostBean);
-        oConnectionImplementation.disposeConnection();
+        if (oConnection != null) {
+            oConnection.close();
+        }
+        if (oConnectionImplementation != null) {
+            oConnectionImplementation.disposeConnection();
+        }
         return "{\"status\":200,\"response\":" + strJson + "}";
     }
 
     @Override
-    public String getcount() throws SQLException {
+    public String getCount() throws SQLException {
         ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConection = oConnectionImplementation.newConnection();
-        PostDao oPostDao = new PostDao(oConection);
-        int iCount = oPostDao.getcount();
-        oConnectionImplementation.disposeConnection();
+        Connection oConnection = oConnectionImplementation.newConnection();
+        PostDao oPostDao = new PostDao(oConnection);
+        int iCount = oPostDao.getCount();
+        if (oConnection != null) {
+            oConnection.close();
+        }
+        if (oConnectionImplementation != null) {
+            oConnectionImplementation.disposeConnection();
+        }
         if (iCount < 0) {
             return "{\"status\":500,\"response\":" + iCount + "}";
         } else {
@@ -89,44 +99,59 @@ public class PostService implements ServiceInterface {
         } else {
             oResponseBean = new ResponseBean(200, "OK");
         }
-        oConnectionImplementation.disposeConnection();
+        if (oConnection != null) {
+            oConnection.close();
+        }
+        if (oConnectionImplementation != null) {
+            oConnectionImplementation.disposeConnection();
+        }
         return oGson.toJson(oResponseBean);
     }
 
     @Override
     public String getAll() throws SQLException {
         ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConection = oConnectionImplementation.newConnection();
-        PostDao oPostDao = new PostDao(oConection);
+        Connection oConnection = oConnectionImplementation.newConnection();
+        PostDao oPostDao = new PostDao(oConnection);
         Gson oGson = GsonFactory.getGson();
         String message = "";
-        List<BeanInterface> listaPostBean = oPostDao.getall();
+        List<BeanInterface> listaPostBean = oPostDao.getAll();
         if (listaPostBean == null) {
             message = "\"La lista está vacia\"";
         } else {
             //oGson = gh.getGson();
             message = oGson.toJson(listaPostBean);
         }
-        oConnectionImplementation.disposeConnection();
+        if (oConnection != null) {
+            oConnection.close();
+        }
+        if (oConnectionImplementation != null) {
+            oConnectionImplementation.disposeConnection();
+        }
         return "{\"status\":200,\"response\":" + message + "}";
     }
 
     @Override
     public String insert() throws SQLException {
         ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConection = oConnectionImplementation.newConnection();
+        Connection oConnection = oConnectionImplementation.newConnection();
         final GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithoutExposeAnnotation();
         Gson oGson = GsonFactory.getGson();
         PostBean oPostBean = oGson.fromJson(oRequest.getParameter("data"), PostBean.class);
         ResponseBean oResponseBean;
-        PostDao oPostDao = new PostDao(oConection);
+        PostDao oPostDao = new PostDao(oConnection);
         if (oPostDao.insert(oPostBean) == 0) {
             oResponseBean = new ResponseBean(500, "KO");
         } else {
             oResponseBean = new ResponseBean(200, "OK");
         };
-        oConnectionImplementation.disposeConnection();
+        if (oConnection != null) {
+            oConnection.close();
+        }
+        if (oConnectionImplementation != null) {
+            oConnectionImplementation.disposeConnection();
+        }
         return oGson.toJson(oResponseBean);
 
     }
@@ -134,8 +159,8 @@ public class PostService implements ServiceInterface {
     @Override
     public String remove() throws SQLException {
         ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConection = oConnectionImplementation.newConnection();
-        PostDao oPostDao = new PostDao(oConection);
+        Connection oConnection = oConnectionImplementation.newConnection();
+        PostDao oPostDao = new PostDao(oConnection);
         Gson oGson = GsonFactory.getGson();
         int id = Integer.parseInt(oRequest.getParameter("id"));
         ResponseBean oResponseBean;
@@ -144,14 +169,19 @@ public class PostService implements ServiceInterface {
         } else {
             oResponseBean = new ResponseBean(200, "OK");
         }
-        oConnectionImplementation.disposeConnection();
+        if (oConnection != null) {
+            oConnection.close();
+        }
+        if (oConnectionImplementation != null) {
+            oConnectionImplementation.disposeConnection();
+        }
         return oGson.toJson(oResponseBean);
     }
 
     public String fill() throws SQLException {
         ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConection = oConnectionImplementation.newConnection();
-        PostDao oPostDao = new PostDao(oConection);
+        Connection oConnection = oConnectionImplementation.newConnection();
+        PostDao oPostDao = new PostDao(oConnection);
         Gson oGson = GsonFactory.getGson();
         Date date1 = new GregorianCalendar(2014, Calendar.JANUARY, 1).getTime();
         Date date2 = new GregorianCalendar(2019, Calendar.DECEMBER, 31).getTime();
@@ -167,7 +197,12 @@ public class PostService implements ServiceInterface {
             oPostDao.insert(oPostBean);
         }
         ResponseBean oResponseBean = new ResponseBean(200, "Insertados los registros con exito");
-        oConnectionImplementation.disposeConnection();
+        if (oConnection != null) {
+            oConnection.close();
+        }
+        if (oConnectionImplementation != null) {
+            oConnectionImplementation.disposeConnection();
+        }
         return oGson.toJson(oResponseBean);
     }
 

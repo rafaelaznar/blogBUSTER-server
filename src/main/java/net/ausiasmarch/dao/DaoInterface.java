@@ -9,16 +9,16 @@ public interface DaoInterface {
 
     BeanInterface get(int id) throws SQLException;
 
-    List<BeanInterface> getall() throws SQLException;
+    List<BeanInterface> getAll() throws SQLException;
 
-    int getcount() throws SQLException;
+    int getCount() throws SQLException;
 
-    ArrayList getpage(int page, int rpp) throws SQLException;
+    ArrayList getPage(int page, int rpp) throws SQLException;
 
     Integer insert(BeanInterface oBean) throws SQLException;
 
     Integer remove(int id) throws SQLException;
 
     Integer update(BeanInterface oBean) throws SQLException;
-    
+
 }

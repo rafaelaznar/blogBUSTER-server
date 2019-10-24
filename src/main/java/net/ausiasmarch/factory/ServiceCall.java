@@ -20,10 +20,10 @@ public class ServiceCall {
                     strResult = oPostService.get();
                     break;
                 case "getcount":
-                    strResult = oPostService.getcount();
+                    strResult = oPostService.getCount();
                     break;
                 case "getpage":
-                    strResult = oPostService.getpage();
+                    strResult = oPostService.getPage();
                     break;
                 case "update":
                     strResult = oPostService.update();

@@ -42,30 +42,7 @@ public class PostDao implements DaoInterface {
     }
 
     @Override
-    public ArrayList getpage(int page, int rpp) throws SQLException {
-        PreparedStatement oPreparedStatement;
-        ResultSet oResultSet;
-        String strSQL = "SELECT * FROM post LIMIT ?,? ";
-        oPreparedStatement = oConnection.prepareStatement(strSQL);
-        oPreparedStatement.setInt(1, (page - 1) * rpp);
-        oPreparedStatement.setInt(2, rpp);
-        oResultSet = oPreparedStatement.executeQuery();
-        PostBean oPostBean;
-        ArrayList alPostBean = new ArrayList<>();
-        while (oResultSet.next()) {
-            oPostBean = new PostBean();
-            oPostBean.setId(oResultSet.getInt("id"));
-            oPostBean.setTitulo(oResultSet.getString("titulo"));
-            oPostBean.setCuerpo(oResultSet.getString("cuerpo"));
-            oPostBean.setEtiquetas(oResultSet.getString("etiquetas"));
-            oPostBean.setFecha(oResultSet.getDate("fecha"));
-            alPostBean.add(oPostBean);
-        }
-        return alPostBean;
-    }
-
-    @Override
-    public int getcount() throws SQLException {
+    public int getCount() throws SQLException {
         PreparedStatement oPreparedStatement;
         ResultSet oResultSet;
         String strSQL = "SELECT count(*) FROM post";
@@ -94,7 +71,7 @@ public class PostDao implements DaoInterface {
     }
 
     @Override
-    public List<BeanInterface> getall() throws SQLException {
+    public List<BeanInterface> getAll() throws SQLException {
         Statement stmt = oConnection.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM post LIMIT 100");
         List<BeanInterface> listaPostBean = new ArrayList();

@@ -9,9 +9,9 @@ public interface ServiceInterface {
 
     String getAll() throws SQLException;
 
-    String getcount() throws SQLException;
+    String getCount() throws SQLException;
 
-    String getpage() throws SQLException;
+    String getPage() throws SQLException;
 
     String insert() throws SQLException;
 
