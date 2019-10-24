@@ -67,7 +67,7 @@ public class PostDao {
             oPostBean.setTitulo(rs.getString("titulo"));
             oPostBean.setCuerpo(rs.getString("cuerpo"));
             oPostBean.setEtiquetas(rs.getString("etiquetas"));
-            oPostBean.setFecha(new Timestamp(rs.getTimestamp("fecha").getTime()));
+            //oPostBean.setFecha(new Timestamp(rs.getTimestamp("fecha").getTime()));
             
             listaPostBean.add(oPostBean);        
         }
