@@ -13,7 +13,7 @@ public interface DaoInterface {
 
     int getCount() throws SQLException;
 
-    ArrayList getPage(int page, int rpp) throws SQLException;
+    ArrayList getPage(int page, int rpp, List<String> orden) throws SQLException;
 
     Integer insert(BeanInterface oBean) throws SQLException;
 
