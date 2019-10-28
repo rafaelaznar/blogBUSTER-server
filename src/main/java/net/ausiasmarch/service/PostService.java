@@ -26,9 +26,9 @@ import net.ausiasmarch.setting.ConnectionSettings;
 public class PostService implements ServiceInterface {
 
     HttpServletRequest oRequest = null;
-    String[] frasesInicio = {"El fin de la estructura ", "La agrupacion logica ", "Una visión de una idea que "};
-    String[] frasesMitad = {"dirige los objetivos ", "garantiza el deseo ", " sin la capacidad de ejecución"};
-    String[] frasesFinal = {"de la reestructuracion agraria.", " en el uso de la misma.", " es únicamente una alucinación."};
+    String[] frasesInicio = {"El fin de la estructura ", "La agrupacion logica ", "El objetivo conjunto ", "Una dinámica apropiada "};
+    String[] frasesMitad = {"dirige los objetivos ", "garantiza el deseo ", "mejora la capacidad ", "recupera el concepto "};
+    String[] frasesFinal = {"de la reestructuracion requerida. ", "en la aplicación. ", "por sus innumerables beneficios. ", "contra la inficiencia. "};
 
     public PostService(HttpServletRequest oRequest) {
         this.oRequest = oRequest;
