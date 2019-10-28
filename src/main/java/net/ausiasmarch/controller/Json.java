@@ -24,7 +24,7 @@ public class Json extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
-        response.setHeader("Access-Control-Allow-Methods", "GET,POST");
+        response.setHeader("Access-Control-Allow-Methods", "GET,POST, OPTIONS");
         response.setHeader("Access-Control-Max-Age", "86400");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Headers", "Origin, Accept, x-requested-with, Content-Type");
