@@ -3,6 +3,7 @@ package net.ausiasmarch.factory;
 import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import net.ausiasmarch.service.PostService;
+import net.ausiasmarch.service.UsuarioService;
 import net.ausiasmarch.setting.ConfigurationSettings;
 
 public class ServiceCall {
@@ -13,6 +14,20 @@ public class ServiceCall {
         String ob = oRequest.getParameter("ob");
         String op = oRequest.getParameter("op");
         String strResult = null;
+        if (ob.equalsIgnoreCase("usuario")) {
+            UsuarioService oUsuarioService = new UsuarioService(oRequest);
+            switch (op) {
+                case "login":
+                    strResult = oUsuarioService.login();
+                    break;
+                case "check":
+                    strResult = oUsuarioService.check();
+                    break;
+                case "logout":
+                    strResult = oUsuarioService.logout();
+                    break;
+            }
+        }
         if (ob.equalsIgnoreCase("post")) {
             PostService oPostService = new PostService(oRequest);
             switch (op) {

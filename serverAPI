@@ -8,3 +8,9 @@ json?ob=post&op=getall
 json?ob=post&op=getcount
 json?ob=post&op=getpage&page=?&rpp=?
 json?ob=post&op=fill&number=?
+
+Autentication
+=============
+json?ob=usuario&op=login&username=?&password=?
+json?ob=usuario&op=check
+json?ob=usuario&op=logout
