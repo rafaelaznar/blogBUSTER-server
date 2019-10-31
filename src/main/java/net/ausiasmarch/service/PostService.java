@@ -49,7 +49,7 @@ public class PostService implements ServiceInterface {
         if (oConnectionImplementation != null) {
             oConnectionImplementation.disposeConnection();
         }
-        return "{\"status\":200,\"response\":" + strJson + "}";
+        return "{\"status\":200,\"message\":" + strJson + "}";
     }
 
     @Override
@@ -72,7 +72,7 @@ public class PostService implements ServiceInterface {
         if (oConnectionImplementation != null) {
             oConnectionImplementation.disposeConnection();
         }
-        return "{\"status\":200,\"response\":" + strJson + "}";
+        return "{\"status\":200,\"message\":" + strJson + "}";
     }
 
     @Override
@@ -88,9 +88,9 @@ public class PostService implements ServiceInterface {
             oConnectionImplementation.disposeConnection();
         }
         if (iCount < 0) {
-            return "{\"status\":500,\"response\":" + iCount + "}";
+            return "{\"status\":500,\"message\":" + iCount + "}";
         } else {
-            return "{\"status\":200,\"response\":" + iCount + "}";
+            return "{\"status\":200,\"message\":" + iCount + "}";
         }
     }
 
@@ -138,7 +138,7 @@ public class PostService implements ServiceInterface {
         if (oConnectionImplementation != null) {
             oConnectionImplementation.disposeConnection();
         }
-        return "{\"status\":200,\"response\":" + message + "}";
+        return "{\"status\":200,\"message\":" + message + "}";
     }
 
     @Override
