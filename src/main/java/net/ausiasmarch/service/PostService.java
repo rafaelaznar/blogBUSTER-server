@@ -11,10 +11,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import net.ausiasmarch.bean.BeanInterface;
-
 import net.ausiasmarch.bean.PostBean;
 import net.ausiasmarch.bean.ResponseBean;
 import net.ausiasmarch.connection.ConnectionInterface;
@@ -59,8 +58,8 @@ public class PostService implements ServiceInterface {
         int iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
         int iPage = Integer.parseInt(oRequest.getParameter("page"));
         List<String> orden = null;
-        if (oRequest.getParameter("order")!=null) {
-        	orden = Arrays.asList(oRequest.getParameter("order").split("\\s*,\\s*"));
+        if (oRequest.getParameter("order") != null) {
+            orden = Arrays.asList(oRequest.getParameter("order").split("\\s*,\\s*"));
         }
         PostDao oPostDao = new PostDao(oConnection);
         ArrayList alPostBean = oPostDao.getPage(iPage, iRpp, orden);
@@ -79,8 +78,10 @@ public class PostService implements ServiceInterface {
     public String getCount() throws SQLException {
         ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
         Connection oConnection = oConnectionImplementation.newConnection();
+        ResponseBean oResponseBean;
+        Gson oGson = GsonFactory.getGson();
         PostDao oPostDao = new PostDao(oConnection);
-        int iCount = oPostDao.getCount();
+        Integer iCount = oPostDao.getCount();
         if (oConnection != null) {
             oConnection.close();
         }
@@ -88,32 +89,38 @@ public class PostService implements ServiceInterface {
             oConnectionImplementation.disposeConnection();
         }
         if (iCount < 0) {
-            return "{\"status\":500,\"message\":" + iCount + "}";
+            oResponseBean = new ResponseBean(500, iCount.toString());
         } else {
-            return "{\"status\":200,\"message\":" + iCount + "}";
+            oResponseBean = new ResponseBean(200, iCount.toString());
         }
+        return oGson.toJson(oResponseBean);
     }
 
     @Override
     public String update() throws SQLException {
-        ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConnection = oConnectionImplementation.newConnection();
-        Gson oGson = GsonFactory.getGson();
+        HttpSession oSession = oRequest.getSession();
         ResponseBean oResponseBean;
-        PostBean oPostBean = new PostBean();
-        String data = oRequest.getParameter("data");
-        oPostBean = oGson.fromJson(data, PostBean.class);
-        PostDao oPostDao = new PostDao(oConnection);
-        if (oPostDao.update(oPostBean) == 0) {
-            oResponseBean = new ResponseBean(500, "KO");
+        Gson oGson = GsonFactory.getGson();
+        if (oSession.getAttribute("usuario") != null) {
+            ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+            Connection oConnection = oConnectionImplementation.newConnection();
+            PostBean oPostBean = new PostBean();
+            String data = oRequest.getParameter("data");
+            oPostBean = oGson.fromJson(data, PostBean.class);
+            PostDao oPostDao = new PostDao(oConnection);
+            if (oPostDao.update(oPostBean) == 0) {
+                oResponseBean = new ResponseBean(500, "KO");
+            } else {
+                oResponseBean = new ResponseBean(200, "OK");
+            }
+            if (oConnection != null) {
+                oConnection.close();
+            }
+            if (oConnectionImplementation != null) {
+                oConnectionImplementation.disposeConnection();
+            }
         } else {
-            oResponseBean = new ResponseBean(200, "OK");
-        }
-        if (oConnection != null) {
-            oConnection.close();
-        }
-        if (oConnectionImplementation != null) {
-            oConnectionImplementation.disposeConnection();
+            oResponseBean = new ResponseBean(401, "Error: No session");
         }
         return oGson.toJson(oResponseBean);
     }
@@ -143,75 +150,90 @@ public class PostService implements ServiceInterface {
 
     @Override
     public String insert() throws SQLException {
-        ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConnection = oConnectionImplementation.newConnection();
-        final GsonBuilder builder = new GsonBuilder();
-        builder.excludeFieldsWithoutExposeAnnotation();
-        Gson oGson = GsonFactory.getGson();
-        PostBean oPostBean = oGson.fromJson(oRequest.getParameter("data"), PostBean.class);
+        HttpSession oSession = oRequest.getSession();
         ResponseBean oResponseBean;
-        PostDao oPostDao = new PostDao(oConnection);
-        if (oPostDao.insert(oPostBean) == 0) {
-            oResponseBean = new ResponseBean(500, "KO");
+        Gson oGson = GsonFactory.getGson();
+        if (oSession.getAttribute("usuario") != null) {
+            ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+            Connection oConnection = oConnectionImplementation.newConnection();
+            final GsonBuilder builder = new GsonBuilder();
+            builder.excludeFieldsWithoutExposeAnnotation();
+            PostBean oPostBean = oGson.fromJson(oRequest.getParameter("data"), PostBean.class);
+            PostDao oPostDao = new PostDao(oConnection);
+            if (oPostDao.insert(oPostBean) == 0) {
+                oResponseBean = new ResponseBean(500, "KO");
+            } else {
+                oResponseBean = new ResponseBean(200, "OK");
+            };
+            if (oConnection != null) {
+                oConnection.close();
+            }
+            if (oConnectionImplementation != null) {
+                oConnectionImplementation.disposeConnection();
+            }
         } else {
-            oResponseBean = new ResponseBean(200, "OK");
-        };
-        if (oConnection != null) {
-            oConnection.close();
-        }
-        if (oConnectionImplementation != null) {
-            oConnectionImplementation.disposeConnection();
+            oResponseBean = new ResponseBean(401, "Error: No session");
         }
         return oGson.toJson(oResponseBean);
-
     }
 
     @Override
     public String remove() throws SQLException {
-        ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConnection = oConnectionImplementation.newConnection();
-        PostDao oPostDao = new PostDao(oConnection);
-        Gson oGson = GsonFactory.getGson();
-        int id = Integer.parseInt(oRequest.getParameter("id"));
+        HttpSession oSession = oRequest.getSession();
         ResponseBean oResponseBean;
-        if (oPostDao.remove(id) == 0) {
-            oResponseBean = new ResponseBean(500, "KO");
+        Gson oGson = GsonFactory.getGson();
+        if (oSession.getAttribute("usuario") != null) {
+            ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+            Connection oConnection = oConnectionImplementation.newConnection();
+            PostDao oPostDao = new PostDao(oConnection);
+            int id = Integer.parseInt(oRequest.getParameter("id"));
+            if (oPostDao.remove(id) == 0) {
+                oResponseBean = new ResponseBean(500, "KO");
+            } else {
+                oResponseBean = new ResponseBean(200, "OK");
+            }
+            if (oConnection != null) {
+                oConnection.close();
+            }
+            if (oConnectionImplementation != null) {
+                oConnectionImplementation.disposeConnection();
+            }
         } else {
-            oResponseBean = new ResponseBean(200, "OK");
-        }
-        if (oConnection != null) {
-            oConnection.close();
-        }
-        if (oConnectionImplementation != null) {
-            oConnectionImplementation.disposeConnection();
+            oResponseBean = new ResponseBean(401, "Error: No session");
         }
         return oGson.toJson(oResponseBean);
     }
 
     public String fill() throws SQLException {
-        ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConnection = oConnectionImplementation.newConnection();
-        PostDao oPostDao = new PostDao(oConnection);
+        HttpSession oSession = oRequest.getSession();
+        ResponseBean oResponseBean;
         Gson oGson = GsonFactory.getGson();
-        Date date1 = new GregorianCalendar(2014, Calendar.JANUARY, 1).getTime();
-        Date date2 = new GregorianCalendar(2019, Calendar.DECEMBER, 31).getTime();
-        int numPost = Integer.parseInt(oRequest.getParameter("number"));
-        for (int i = 0; i < numPost; i++) {
-            PostBean oPostBean = new PostBean();
-            Date randomDate = new Date(ThreadLocalRandom.current()
-                    .nextLong(date1.getTime(), date2.getTime()));
-            oPostBean.setTitulo(generaTexto(1));
-            oPostBean.setCuerpo(generaTexto(5));
-            oPostBean.setEtiquetas(generaTexto(1));
-            oPostBean.setFecha(randomDate);
-            oPostDao.insert(oPostBean);
-        }
-        ResponseBean oResponseBean = new ResponseBean(200, "Insertados los registros con exito");
-        if (oConnection != null) {
-            oConnection.close();
-        }
-        if (oConnectionImplementation != null) {
-            oConnectionImplementation.disposeConnection();
+        if (oSession.getAttribute("usuario") != null) {
+            ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+            Connection oConnection = oConnectionImplementation.newConnection();
+            PostDao oPostDao = new PostDao(oConnection);
+            Date date1 = new GregorianCalendar(2014, Calendar.JANUARY, 1).getTime();
+            Date date2 = new GregorianCalendar(2019, Calendar.DECEMBER, 31).getTime();
+            int numPost = Integer.parseInt(oRequest.getParameter("number"));
+            for (int i = 0; i < numPost; i++) {
+                PostBean oPostBean = new PostBean();
+                Date randomDate = new Date(ThreadLocalRandom.current()
+                        .nextLong(date1.getTime(), date2.getTime()));
+                oPostBean.setTitulo(generaTexto(1));
+                oPostBean.setCuerpo(generaTexto(5));
+                oPostBean.setEtiquetas(generaTexto(1));
+                oPostBean.setFecha(randomDate);
+                oPostDao.insert(oPostBean);
+            }
+            oResponseBean = new ResponseBean(200, "Insertados los registros con exito");
+            if (oConnection != null) {
+                oConnection.close();
+            }
+            if (oConnectionImplementation != null) {
+                oConnectionImplementation.disposeConnection();
+            }
+        } else {
+            oResponseBean = new ResponseBean(401, "Error: No session");
         }
         return oGson.toJson(oResponseBean);
     }

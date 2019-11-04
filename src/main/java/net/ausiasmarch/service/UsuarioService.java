@@ -17,7 +17,7 @@ public class UsuarioService {
     public String login() {
         HttpSession oSession = oRequest.getSession();
         ResponseBean oResponseBean = null;
-        if (oRequest.getParameter("username").equals("rafa") && oRequest.getParameter("password").equals("bitnami")) {
+        if (oRequest.getParameter("username").equals("rafa") && oRequest.getParameter("password").equalsIgnoreCase("017FBC0E001B5E9C16908C754F9607DC886F25D08B2CBADC788B8B267DF199F2")) {
             oSession.setAttribute("usuario", oRequest.getParameter("username"));
             oResponseBean = new ResponseBean(200, "Welcome");
         } else {

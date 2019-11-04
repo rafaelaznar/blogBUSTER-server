@@ -47,7 +47,7 @@ public class ServiceCall {
                     strResult = oPostService.remove();
                     break;
                 case "getall":
-                    strResult = oPostService.getAll();
+                    //strResult = oPostService.getAll();
                     break;
                 case "insert":
                     strResult = oPostService.insert();
