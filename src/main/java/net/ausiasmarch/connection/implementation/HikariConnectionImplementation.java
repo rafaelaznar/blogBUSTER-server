@@ -31,7 +31,7 @@ public class HikariConnectionImplementation implements ConnectionInterface {
         config.setConnectionTimeout(2000);
 
         oConnectionPool = new HikariDataSource(config);
-        oConnection = (Connection) oConnectionPool.getConnection();
+        oConnection = oConnectionPool.getConnection();
         return oConnection;
 
     }
