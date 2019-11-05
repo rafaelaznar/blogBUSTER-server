@@ -10,7 +10,7 @@ public class ServiceCall {
 
     HttpServletRequest oRequest;
 
-    public static String executeService(HttpServletRequest oRequest) throws SQLException {
+    public static String executeService(HttpServletRequest oRequest) throws Exception {
         String ob = oRequest.getParameter("ob");
         String op = oRequest.getParameter("op");
         String strResult = null;

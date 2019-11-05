@@ -1,22 +1,20 @@
 
 package net.ausiasmarch.service;
 
-import java.sql.SQLException;
-
 public interface ServiceInterface {
 
-    String get() throws SQLException;
+    String get() throws Exception;
 
-    String getAll() throws SQLException;
+    String getAll() throws Exception;
 
-    String getCount() throws SQLException;
+    String getCount() throws Exception;
 
-    String getPage() throws SQLException;
+    String getPage() throws Exception;
 
-    String insert() throws SQLException;
+    String insert() throws Exception;
 
-    String remove() throws SQLException;
+    String remove() throws Exception;
 
-    String update() throws SQLException;
+    String update() throws Exception;
     
 }
