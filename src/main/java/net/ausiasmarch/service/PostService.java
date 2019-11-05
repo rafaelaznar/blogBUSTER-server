@@ -34,9 +34,11 @@ public class PostService implements ServiceInterface {
 
     @Override
     public String get() throws Exception {
-        ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConnection = oConnectionImplementation.newConnection();
+        ConnectionInterface oConnectionImplementation = null;
+        Connection oConnection = null;
         try {
+            oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+            oConnection = oConnectionImplementation.newConnection();
             int id = Integer.parseInt(oRequest.getParameter("id"));
             PostDao oPostDao = new PostDao(oConnection);
             PostBean oPostBean = oPostDao.get(id);
@@ -58,9 +60,11 @@ public class PostService implements ServiceInterface {
 
     @Override
     public String getPage() throws Exception {
-        ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConnection = oConnectionImplementation.newConnection();
+        ConnectionInterface oConnectionImplementation = null;
+        Connection oConnection = null;
         try {
+            oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+            oConnection = oConnectionImplementation.newConnection();
             int iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
             int iPage = Integer.parseInt(oRequest.getParameter("page"));
             List<String> orden = null;
@@ -87,9 +91,11 @@ public class PostService implements ServiceInterface {
 
     @Override
     public String getCount() throws Exception {
-        ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConnection = oConnectionImplementation.newConnection();
+        ConnectionInterface oConnectionImplementation = null;
+        Connection oConnection = null;
         try {
+            oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+            oConnection = oConnectionImplementation.newConnection();
             ResponseBean oResponseBean;
             Gson oGson = GsonFactory.getGson();
             PostDao oPostDao = new PostDao(oConnection);
@@ -119,9 +125,11 @@ public class PostService implements ServiceInterface {
         ResponseBean oResponseBean;
         Gson oGson = GsonFactory.getGson();
         if (oSession.getAttribute("usuario") != null) {
-            ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-            Connection oConnection = oConnectionImplementation.newConnection();
+            ConnectionInterface oConnectionImplementation = null;
+            Connection oConnection = null;
             try {
+                oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+                oConnection = oConnectionImplementation.newConnection();
                 PostBean oPostBean = new PostBean();
                 String data = oRequest.getParameter("data");
                 oPostBean = oGson.fromJson(data, PostBean.class);
@@ -152,9 +160,11 @@ public class PostService implements ServiceInterface {
 
     @Override
     public String getAll() throws Exception {
-        ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-        Connection oConnection = oConnectionImplementation.newConnection();
+        ConnectionInterface oConnectionImplementation = null;
+        Connection oConnection = null;
         try {
+            oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+            oConnection = oConnectionImplementation.newConnection();
             PostDao oPostDao = new PostDao(oConnection);
             Gson oGson = GsonFactory.getGson();
             String message = "";
@@ -186,9 +196,11 @@ public class PostService implements ServiceInterface {
         ResponseBean oResponseBean;
         Gson oGson = GsonFactory.getGson();
         if (oSession.getAttribute("usuario") != null) {
-            ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-            Connection oConnection = oConnectionImplementation.newConnection();
+            ConnectionInterface oConnectionImplementation = null;
+            Connection oConnection = null;
             try {
+                oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+                oConnection = oConnectionImplementation.newConnection();
                 final GsonBuilder builder = new GsonBuilder();
                 builder.excludeFieldsWithoutExposeAnnotation();
                 PostBean oPostBean = oGson.fromJson(oRequest.getParameter("data"), PostBean.class);
@@ -222,9 +234,11 @@ public class PostService implements ServiceInterface {
         ResponseBean oResponseBean;
         Gson oGson = GsonFactory.getGson();
         if (oSession.getAttribute("usuario") != null) {
-            ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-            Connection oConnection = oConnectionImplementation.newConnection();
+            ConnectionInterface oConnectionImplementation = null;
+            Connection oConnection = null;
             try {
+                oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+                oConnection = oConnectionImplementation.newConnection();
                 PostDao oPostDao = new PostDao(oConnection);
                 int id = Integer.parseInt(oRequest.getParameter("id"));
                 if (oPostDao.remove(id) == 0) {
@@ -256,9 +270,11 @@ public class PostService implements ServiceInterface {
         ResponseBean oResponseBean;
         Gson oGson = GsonFactory.getGson();
         if (oSession.getAttribute("usuario") != null) {
-            ConnectionInterface oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
-            Connection oConnection = oConnectionImplementation.newConnection();
+            ConnectionInterface oConnectionImplementation = null;
+            Connection oConnection = null;
             try {
+                oConnectionImplementation = ConnectionFactory.getConnection(ConnectionSettings.connectionPool);
+                oConnection = oConnectionImplementation.newConnection();
                 PostDao oPostDao = new PostDao(oConnection);
                 Date date1 = new GregorianCalendar(2014, Calendar.JANUARY, 1).getTime();
                 Date date2 = new GregorianCalendar(2019, Calendar.DECEMBER, 31).getTime();
