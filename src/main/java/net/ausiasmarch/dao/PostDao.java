@@ -1,6 +1,7 @@
 package net.ausiasmarch.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,14 +59,15 @@ public class PostDao implements DaoInterface {
     @Override
     public Integer update(BeanInterface oPostBeanParam) throws SQLException {
         PreparedStatement oPreparedStatement = null;
-        String strSQL = "UPDATE post SET titulo = ?, cuerpo = ?, etiquetas = ? WHERE id = ?";
+        String strSQL = "UPDATE post SET titulo = ?, cuerpo = ?, etiquetas = ?, fecha=? WHERE id = ?";
         int iResult;
         oPreparedStatement = oConnection.prepareStatement(strSQL, Statement.RETURN_GENERATED_KEYS);
         PostBean oPostBean = (PostBean) oPostBeanParam;
         oPreparedStatement.setString(1, oPostBean.getTitulo());
         oPreparedStatement.setString(2, oPostBean.getCuerpo());
         oPreparedStatement.setString(3, oPostBean.getEtiquetas());
-        oPreparedStatement.setInt(4, oPostBean.getId());
+        oPreparedStatement.setDate(4,  new java.sql.Date(oPostBean.getFecha().getTime()));                        
+        oPreparedStatement.setInt(5, oPostBean.getId());
         iResult = oPreparedStatement.executeUpdate();
         return iResult;
     }
@@ -81,7 +83,7 @@ public class PostDao implements DaoInterface {
             oPostBean.setTitulo(rs.getString("titulo"));
             oPostBean.setCuerpo(rs.getString("cuerpo"));
             oPostBean.setEtiquetas(rs.getString("etiquetas"));          
-            //oPostBean.setFecha(new Timestamp(rs.getTimestamp("fecha").getTime()));
+            oPostBean.setFecha(rs.getDate("fecha"));
             listaPostBean.add(oPostBean);        
         }
         return listaPostBean;
@@ -90,13 +92,13 @@ public class PostDao implements DaoInterface {
     @Override
     public Integer insert(BeanInterface oPostBeanParam) throws SQLException {
         PreparedStatement oPreparedStatement;
-        String strsql = "INSERT INTO post (titulo,cuerpo,etiquetas) VALUES(?,?,?)";
+        String strsql = "INSERT INTO post (titulo,cuerpo,etiquetas,fecha) VALUES(?,?,?,?)";
         oPreparedStatement = oConnection.prepareStatement(strsql);
         PostBean oPostBean = (PostBean) oPostBeanParam;
         oPreparedStatement.setString(1, oPostBean.getTitulo());
         oPreparedStatement.setString(2, oPostBean.getCuerpo());
         oPreparedStatement.setString(3, oPostBean.getEtiquetas());
-        //oPreparedStatement.setDate(4, (Date) oPostBean.getFecha());
+        oPreparedStatement.setDate(4, new java.sql.Date(oPostBean.getFecha().getTime()));
         int iResult = oPreparedStatement.executeUpdate();
         return iResult;
     }
