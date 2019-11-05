@@ -9,6 +9,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,9 +26,10 @@ import net.ausiasmarch.setting.ConnectionSettings;
 public class PostService implements ServiceInterface {
 
     HttpServletRequest oRequest = null;
-    String[] frasesInicio = {"El fin de la estructura ", "La agrupacion logica ", "El objetivo conjunto ", "Una dinámica apropiada "};
-    String[] frasesMitad = {"dirige los objetivos ", "garantiza el deseo ", "mejora la capacidad ", "recupera el concepto "};
-    String[] frasesFinal = {"de la reestructuracion requerida. ", "en la aplicación. ", "por sus innumerables beneficios. ", "contra la inficiencia. "};
+    String[] frasesInicio = {"El fin de la estructura ", "La agrupacion logica ", "El objetivo conjunto ", "Una dinámica apropiada ", "La actitud positiva "};
+    String[] frasesMitad = {"dirige los objetivos ", "garantiza el deseo ", "mejora la capacidad ", "recupera el concepto ", "incentiva el progreso ", "busca la mejora "};
+    String[] frasesFinal = {"de la reestructuracion requerida. ", "en la aplicación. ", "por sus innumerables beneficios. ", "contra la ineficiencia. ", " a pesar de las desventajas evidentes. "};
+    String[] palabras = {"botijo", "alcaparra", "estructura", "logica", "objetivo", "aplicación", "reestructuracion", "deseo", "beneficio", "concepto", "progreso", "conferencia", "ponencia", "mejora"};
 
     public PostService(HttpServletRequest oRequest) {
         this.oRequest = oRequest;
@@ -284,8 +287,8 @@ public class PostService implements ServiceInterface {
                     Date randomDate = new Date(ThreadLocalRandom.current()
                             .nextLong(date1.getTime(), date2.getTime()));
                     oPostBean.setTitulo(generaTexto(1));
-                    oPostBean.setCuerpo(generaTexto(5));
-                    oPostBean.setEtiquetas(generaTexto(1));
+                    oPostBean.setCuerpo(generaTexto(this.getRandomInt(5, 25)));
+                    oPostBean.setEtiquetas(generaPalabras(this.getRandomInt(1, 6)));
                     oPostBean.setFecha(randomDate);
                     oPostDao.insert(oPostBean);
                 }
@@ -309,6 +312,12 @@ public class PostService implements ServiceInterface {
         }
     }
 
+    private int getRandomInt(int min, int max) {
+        Random rand = new Random();
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+        return randomNum;
+    }
+
     private String generaTexto(int longitud) {
         String fraseRandom = "";
         for (int i = 0; i < longitud; i++) {
@@ -317,5 +326,16 @@ public class PostService implements ServiceInterface {
             fraseRandom += frasesFinal[(int) (Math.random() * frasesFinal.length) + 0];
         }
         return fraseRandom;
+    }
+
+    private String generaPalabras(int longitud) {
+        Collections.shuffle(Arrays.asList(palabras));
+        String[] listaPalabras = Arrays.copyOfRange(palabras, 0, longitud);        
+        String palabrasRandom = "";
+        for (int i = 0; i < longitud; i++) {
+            palabrasRandom += palabras[i];
+            palabrasRandom += " ";
+        }
+        return palabrasRandom;
     }
 }
